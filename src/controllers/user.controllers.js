@@ -117,7 +117,7 @@ export const loginUser = async(req,res)=>{
                         }
                 )
     } catch (error) {
-        console.log("Error while logging in the user",error)
+        console.log("Error while logging in the user",error.message)
     }
 
 }
