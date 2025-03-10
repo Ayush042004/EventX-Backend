@@ -60,7 +60,7 @@ export const registerUser = async(req,res)=>{
         const options = {
             httpOnly: true, 
             secure: true,
-            sameSite: none
+            sameSite: "lax"
         }
         
         return res.status(200)

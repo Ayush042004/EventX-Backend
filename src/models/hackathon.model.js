@@ -39,6 +39,10 @@ const hackathonSchema = new mongoose.Schema(
       type: Number,
       default: 1,
     },
+    avatar:{
+      type: String,
+      required:true
+    }
   },
   { timestamps: true }
 );
