@@ -59,7 +59,8 @@ export const registerUser = async(req,res)=>{
 
         const options = {
             httpOnly: true, 
-            secure: true
+            secure: true,
+            sameSite: none
         }
         
         return res.status(200)
@@ -119,7 +120,7 @@ export const loginUser = async(req,res)=>{
                         }
                 )
     } catch (error) {
-        console.log("Error while logging in the user",error)
+        console.log("Error while logging in the user",error.message)
     }
 
 }
@@ -314,3 +315,4 @@ export const authenticateWithMetaMask = async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 };
+
