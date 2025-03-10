@@ -68,7 +68,8 @@ export const registerUser = async(req,res)=>{
         .json(
             {
                 User:user.name,
-                message:"User created successfully"
+                message:"User created successfully",
+                status:200
             }
         )
     } catch (error) {
@@ -113,7 +114,8 @@ export const loginUser = async(req,res)=>{
                 .json(
                         {
                             user:loggedInUser,
-                            message: "User logged in successfully"
+                            message: "User logged in successfully",
+                            status:200
                         }
                 )
     } catch (error) {
@@ -286,3 +288,29 @@ export const updateUserAvatar = async(req,res)=>{
                 }
             )
 }
+
+export const authenticateWithMetaMask = async (req, res) => {
+    try {
+        const { walletAddress } = req.body; 
+        if (!walletAddress) {
+            return res.status(400).json({ message: "Wallet address required!" });
+        }
+
+        let user = await User.findOne({ walletAddress });
+        
+        if (!user) {
+            user = await User.findOne(req.user._id)
+            if (!user) {
+                return res.status(404).json({ message: "User not found! Please register first." });
+            }
+            user.walletAddress = walletAddress;
+            await user.save();
+            console.log("✅ Wallet address linked:", user.email);
+        }
+
+        res.status(200).json({ message: "User authenticated", user });
+    } catch (error) {
+        console.error("❌ MetaMask authentication error", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
